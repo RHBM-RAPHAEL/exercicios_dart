@@ -8,13 +8,13 @@ void main() {
 	print("=" * 30);
 	color = stdin.readLineSync()!.toLowerCase();
 	print("=" * 30);
-	String? word = color[0][0];
-	switch(word) {
-		case "r":
+
+	switch(color) {
+		case "red":
 			print("Stop!");
-		case "y":
+		case "yellow":
 			print("Attention!");
-		case "g":
+		case "green":
 			print("Go!");
 		default:
 			print("Invalid color!");
