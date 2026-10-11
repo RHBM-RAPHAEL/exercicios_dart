@@ -22,7 +22,10 @@ void main() {
 	
 		switch(chooseNumber) {
 			case 1:
-				print("Products: $products");
+				for (String product in products) {
+          print("- $product");
+        }
+        print("${products.length} in total!");
 			case 2:
 				print("Add a product:");
 				choose = stdin.readLineSync();
@@ -31,15 +34,22 @@ void main() {
 				print("Choose the product for remove:");
 				print(products);
 				choose = stdin.readLineSync();
-				products.remove(choose);
+        if (products.contains(choose)) {
+          products.remove(choose);
+					print("Product removed!");
+				} else {
+					print("Product not find!");
+				}
 			case 4:
 				print("What product do you want find:");
 				choose = stdin.readLineSync();
 				if (products.contains(choose)) {
-					print("Product finded!");
+					print("Product found!");
 				} else {
 					print("Product not find!");
 				}
+      case 5:
+        print("Program closed!");
       default:
         print("Choose invalid!");
 		}
