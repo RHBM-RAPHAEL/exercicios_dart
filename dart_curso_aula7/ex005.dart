@@ -8,7 +8,8 @@ void main() {
 	];
 	
 	int chooseNumber = 0;
-	String? choose = "";
+	String? choose;
+
 	while (chooseNumber != 5) {
 		print("========== INVENTORY ==========");
 		print("""1 - View products
@@ -25,7 +26,7 @@ void main() {
 			case 2:
 				print("Add a product:");
 				choose = stdin.readLineSync();
-				products.add(choose);
+				products.add(choose!);
 			case 3:
 				print("Choose the product for remove:");
 				print(products);
@@ -39,8 +40,8 @@ void main() {
 				} else {
 					print("Product not find!");
 				}
-			defaut:
-				print("Choose invalid!");
+      default:
+        print("Choose invalid!");
 		}
 	}
 }
