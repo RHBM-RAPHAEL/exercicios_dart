@@ -1,12 +1,15 @@
-import 'dart:io';
+import "dart:io";
 
 void main() {
-  List<String> students = ["Raphael", "Ana", "Carlos"];
-  List<double> grades = [8.5, 6.0, 9.0];
-  int choose;
-  String? textOperetion;
-  do {
-    print("""
+	List<String> students = [];
+	List<double> grades = [];
+
+	int choose;
+	double grade;
+	String? text;
+
+	do {
+		print("""
 ========== SCHOOL SYSTEM ==========
 1 - Register student
 2 - View students
@@ -15,23 +18,64 @@ void main() {
 5 - Class average
 6 - Exit
 ===================================
-Choose an option:
 """);
-  choose = int.parse(stdin.readLineSync()!);
+	
+		choose = int.parse(stdin.readLineSync()!);
 
-  switch (choose) {
-    case 1:
-      print("Register student:");
-      textOperetion = stdin.readLineSync()!;
-      students.add(textOperetion);
+		switch(choose) {
+			case 1:
+				print("Register student:");
+				text = stdin.readLineSync()!;
+				text = text.toLowerCase();
+				print("Register student grade:");
+				grade = double.parse(stdin.readLineSync()!);
 
-      if (students.contains(textOperetion)) {
-        print("Students registed!");
-      } else {
-        print("Error! Studente no registed!");
-      }
-      case 2:
-        
-    }
-  } while (choose != 6);
+				if (students.contains(text!)) {
+					print("$text existed!");
+				} else {
+					print("$text registed!");
+					students.add(text);
+					grades.add(grade);
+				}
+			case 2:
+				print("Students registed:");
+				
+				for (int i = 0; i < students.length; i++) {
+					print("- ${students[i]}, grade: ${grades[i]}");
+				}
+			case 3:
+				print("Search student:");
+				text = stdin.readLineSync()!;
+				text = text.toLowerCase();
+				if (students.contains(text!)) {
+					print("Student Searched!");
+					for (int y = 0; y < students.length; y++) {
+						if (text == students[y]) {
+							print("$text grade: ${grades[y]}");
+						}
+					}
+				} else {
+					print("Student no searched!");
+				}
+			case 4:
+				print("Choose one student for removed:");
+				for (String student in students) {
+					print("- $student");
+				}
+				text = stdin.readLineSync()!;
+				text = text.toLowerCase();
+				print("- $text removed!");
+				students.remove(text);
+			case 5:
+				double sum = 0.0;
+				print("Class average:");
+				
+				for (double gradeStudent in grades) {
+					sum += gradeStudent;
+				}
+				print(sum / grades.length);
+			default:
+				print("You exit!");
+		}
+	} while (choose != 6);
 }
