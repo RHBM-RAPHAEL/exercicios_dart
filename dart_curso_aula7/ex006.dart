@@ -1,15 +1,14 @@
-import "dart:io";
+
+import 'dart:io';
 
 void main() {
-	List<String> students = [];
-	List<double> grades = [];
+  List<String> students = [];
+  List<double> grades = [];
 
-	int choose;
-	double grade;
-	String? text;
+  int choose = 0;
 
-	do {
-		print("""
+  do {
+    print('''
 ========== SCHOOL SYSTEM ==========
 1 - Register student
 2 - View students
@@ -18,64 +17,111 @@ void main() {
 5 - Class average
 6 - Exit
 ===================================
-""");
-	
-		choose = int.parse(stdin.readLineSync()!);
+''');
 
-		switch(choose) {
-			case 1:
-				print("Register student:");
-				text = stdin.readLineSync()!;
-				text = text.toLowerCase();
-				print("Register student grade:");
-				grade = double.parse(stdin.readLineSync()!);
+    stdout.write('Choose an option: ');
+    choose = int.tryParse(stdin.readLineSync() ?? '') ?? 0;
 
-				if (students.contains(text!)) {
-					print("$text existed!");
-				} else {
-					print("$text registed!");
-					students.add(text);
-					grades.add(grade);
-				}
-			case 2:
-				print("Students registed:");
-				
-				for (int i = 0; i < students.length; i++) {
-					print("- ${students[i]}, grade: ${grades[i]}");
-				}
-			case 3:
-				print("Search student:");
-				text = stdin.readLineSync()!;
-				text = text.toLowerCase();
-				if (students.contains(text!)) {
-					print("Student Searched!");
-					for (int y = 0; y < students.length; y++) {
-						if (text == students[y]) {
-							print("$text grade: ${grades[y]}");
-						}
-					}
-				} else {
-					print("Student no searched!");
-				}
-			case 4:
-				print("Choose one student for removed:");
-				for (String student in students) {
-					print("- $student");
-				}
-				text = stdin.readLineSync()!;
-				text = text.toLowerCase();
-				print("- $text removed!");
-				students.remove(text);
-			case 5:
-				double sum = 0.0;
-				print("Class average:");
-				
-				for (double gradeStudent in grades) {
-					sum += gradeStudent;
-				}
-				print(sum / grades.length);
-			default:
-				print("You exit!");
-		}
-	} while (choose != 6);
+    switch (choose) {
+      case 1:
+        stdout.write('Register student: ');
+        String name =
+            (stdin.readLineSync() ?? '').trim().toLowerCase();
+
+        if (name.isEmpty) {
+          print('Invalid student name!');
+          break;
+        }
+
+        if (students.contains(name)) {
+          print('Student already registered!');
+          break;
+        }
+
+        stdout.write('Register student grade (0-10): ');
+        double? grade =
+            double.tryParse(stdin.readLineSync() ?? '');
+
+        if (grade == null ||
+            !grade.isFinite ||
+            grade < 0 ||
+            grade > 10) {
+          print('Invalid grade! Enter a number between 0 and 10.');
+          break;
+        }
+
+        students.add(name);
+        grades.add(grade);
+        print('Student registered!');
+
+      case 2:
+        if (students.isEmpty) {
+          print('No students registered!');
+        } else {
+          print('Registered students:');
+
+          for (int i = 0; i < students.length; i++) {
+            String status =
+                grades[i] >= 7 ? 'Approved' : 'Failed';
+
+            print(
+              '- ${students[i]} | Grade: ${grades[i]} | $status'
+            );
+          }
+        }
+
+      case 3:
+        stdout.write('Search student: ');
+        String name =
+            (stdin.readLineSync() ?? '').trim().toLowerCase();
+
+        int index = students.indexOf(name);
+
+        if (index == -1) {
+          print('Student not found!');
+        } else {
+          print('Student: ${students[index]}');
+          print('Grade: ${grades[index]}');
+        }
+
+      case 4:
+        stdout.write('Choose a student to remove: ');
+        String name =
+            (stdin.readLineSync() ?? '').trim().toLowerCase();
+
+        int index = students.indexOf(name);
+
+        if (index == -1) {
+          print('Student not found!');
+        } else {
+          students.removeAt(index);
+          grades.removeAt(index);
+          print('Student removed!');
+        }
+
+      case 5:
+        if (grades.isEmpty) {
+          print('No students registered!');
+        } else {
+          double sum = 0.0;
+
+          for (double studentGrade in grades) {
+            sum += studentGrade;
+          }
+
+          double average = sum / grades.length;
+
+          print(
+            'Class average: ${average.toStringAsFixed(2)}'
+          );
+        }
+
+      case 6:
+        print('Program closed!');
+
+      default:
+        print('Invalid option!');
+    }
+  } while (choose != 6);
 }
+  
