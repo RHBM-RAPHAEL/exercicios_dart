@@ -25,7 +25,8 @@ void main() {
 		switch(choose) {
 			case 1:
 				print("Register student:");
-				text = stdin.readLineSync().toLowerCase();
+				text = stdin.readLineSync()!;
+				text = text.toLowerCase();
 				print("Register student grade:");
 				grade = double.parse(stdin.readLineSync()!);
 
@@ -45,6 +46,7 @@ void main() {
 			case 3:
 				print("Search student:");
 				text = stdin.readLineSync()!;
+				text = text.toLowerCase();
 				if (students.contains(text!)) {
 					print("Student Searched!");
 					for (int y = 0; y < students.length; y++) {
@@ -52,7 +54,26 @@ void main() {
 							print("$text grade: ${grades[y]}");
 						}
 					}
+				} else {
+					print("Student no searched!");
 				}
+			case 4:
+				print("Choose one student for removed:");
+				for (String student in students) {
+					print("- $student");
+				}
+				text = stdin.readLineSync()!;
+				text = text.toLowerCase();
+				print("- $text removed!");
+				students.remove(text);
+			case 5:
+				double sum = 0.0;
+				print("Class average:");
+				
+				for (double gradeStudent in grades) {
+					sum += gradeStudent;
+				}
+				print(sum / grades.length);
 			default:
 				print("You exit!");
 		}
